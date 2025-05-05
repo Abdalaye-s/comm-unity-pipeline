@@ -7,8 +7,15 @@ __pycache__/
 
 # Virtualenv
 venv/
+venv-py310/
+venv/
 env/
 .venv/
+
+# Streamlit/IDE
+.streamlit/
+.idea/
+.vscode/
 
 # Data files
 *.csv

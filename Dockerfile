@@ -7,8 +7,6 @@ WORKDIR /Community
 # Copier tous les fichiers du projet dans le conteneur
 COPY . /Community
 
-COPY fonts /Community/fonts
-
 # Installer les dépendances système
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -46,4 +44,4 @@ RUN python -m spacy download fr_core_news_sm
 EXPOSE 8501
 
 # Commande de démarrage du dashboard
-CMD ["streamlit", "run", "src/dashboard/dashboard.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "src/dashboard/0_Accueil.py", "--server.port=8501", "--server.address=0.0.0.0"]

@@ -9,6 +9,7 @@ import altair as alt
 from collections import Counter
 from datetime import datetime
 import ast
+import base64
 
 # Configuration de la page
 st.set_page_config(page_title="Comm’Unity – Vue d’ensemble", layout="wide")
@@ -26,12 +27,21 @@ if os.path.exists(css_path):
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # ✅ Header
-st.markdown(f"<div style='display: flex; align-items: center;'>"
-            f"<img src='data:image/png;base64,{open(logo_path, 'rb').read().hex()}' width='50'>"
-            f"<h1 style='padding-left: 1rem; color:#4A90E2;'>Comm’Unity – Vue d’ensemble</h1></div>",
-            unsafe_allow_html=True)
-st.markdown("Suivez l'évolution des ressentis dans votre **ville** ou votre **organisation**.")
+if os.path.exists(logo_path):
+    with open(logo_path, "rb") as f:
+        logo_base64 = base64.b64encode(f.read()).decode()
 
+    st.markdown(f"""
+        <div style='display: flex; align-items: center;'>
+            <img src='data:image/png;base64,{logo_base64}' width='50'>
+            <h1 style='padding-left: 1rem; color:#4A90E2;'>Comm’Unity – Vue d’ensemble</h1>
+        </div>
+    """, unsafe_allow_html=True)
+else:
+    st.markdown("### Comm’Unity – Vue d’ensemble")
+    st.warning("Logo non trouvé.")
+
+st.markdown("Suivez l'évolution des ressentis dans votre **ville** ou votre **organisation**.")
 st.markdown("---")
 
 # 🧠 Initialisation session
