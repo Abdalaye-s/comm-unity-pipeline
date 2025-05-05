@@ -1,0 +1,97 @@
+🎤 Pitch technique – Comm’Unity (C-O-M-M)
+Bonjour à toutes et à tous,
+
+Maintenant que vous avez compris pourquoi Comm’Unity a été créé, je vais vous montrer comment il fonctionne concrètement.
+
+Pour cela, on peut s’appuyer sur les 4 premières lettres de notre nom :
+C – O – M – M : Commentaires, Opinion, Mise en page, Modèle.
+
+🟣 C – Commentaires
+Tout commence par la parole des habitants.
+
+Comm’Unity va chercher automatiquement ce que les citoyens expriment sur :
+
+les avis Google,
+
+les réseaux sociaux,
+
+les forums locaux.
+
+Ensuite, on nettoie les messages :
+
+On filtre le bruit (pub, spam, hors-sujet),
+
+On supprime les doublons,
+
+On corrige les fautes pour que l’analyse soit fiable.
+
+On garde l’essentiel : le message citoyen brut, dans toute sa richesse.
+
+🟣 O – Opinion / émotion
+Une fois les messages propres, on identifie l’émotion exprimée.
+
+Chaque message est classé comme :
+
+positif,
+
+négatif,
+
+ou neutre.
+
+On capte aussi les intentions ou ressentis clés : inquiétude, satisfaction, colère…
+
+Et on ne s’arrête pas à une seule méthode.
+Comm’Unity utilise plusieurs algorithmes complémentaires pour croiser les résultats, un peu comme un jury d’experts, afin d’obtenir un diagnostic émotionnel fiable.
+
+🟣 M – Mise en page
+Tous ces résultats sont accessibles dans un tableau de bord simple et visuel, pensé pour les mairies.
+
+On y trouve :
+
+Les sujets les plus évoqués (ex : logement, propreté, transports),
+
+Leur tonalité associée : vert, orange, rouge,
+
+Un affichage filtrable par période, thème, quartier ou service municipal.
+
+📸 (À ce moment-là, tu peux projeter une capture ou faire une mini démo)
+
+L’objectif : qu’un élu ou agent, en un coup d’œil, sache ce que pensent les citoyens.
+
+🟣 M – Modèle
+Derrière tous ces résultats se cache une architecture de modèles hybrides.
+
+Le cœur du système repose sur CamemBERT, une version francophone du modèle BERT, que nous avons réentraînée sur des données citoyennes pour bien comprendre le langage courant, les fautes, et même les emojis.
+
+Mais on ne s’est pas arrêté à un seul modèle.
+Comm’Unity repose sur un principe de vote majoritaire, un peu comme un comité d’experts IA.
+
+🔍 Concrètement, on combine :
+
+CamemBERT,
+
+des méthodes classiques comme Naive Bayes,
+
+et des modèles de lexique comme VADER ou TextBlob.
+
+Chacun donne son avis, et notre système prend la décision finale par vote, pour assurer la meilleure robustesse possible.
+C’est ce qui nous permet d’atteindre une précision de 87 %, tout en restant stable face aux variations de langage.
+
+Et pour aller plus loin, nous utilisons aussi un modèle génératif pour résumer automatiquement l’avis global des citoyens.
+
+Une robustesse face au langage familier, fautes, emojis…
+
+
+
+✅ Conclusion
+Comm’Unity, c’est :
+
+L’écoute citoyenne augmentée par l’IA,
+
+Un outil accessible pour toutes les collectivités,
+
+Et un modèle solide, fait pour durer.
+
+Merci pour votre attention. Je laisse maintenant la parole à [nom du collègue] pour vous parler de la dimension économique du projet.
+
+Souhaites-tu une version en PDF ou slide pour l’accompagner à l’oral ?

@@ -1,0 +1,78 @@
+html, body, .main {
+    background-color: #f9fcf9;
+    color: #2c3e50;
+    font-family: "Helvetica", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #2c3e50 !important;
+    font-weight: bold !important;
+}
+
+h2 {
+    font-size: 30px !important;
+    text-align: center !important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 24px !important;
+    color: #1e5631 !important;
+    margin-top: 16px;
+    margin-bottom: 10px;
+}
+
+.stButton>button, .stDownloadButton>button {
+    background-color: #81B774;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 24px;
+    font-size: 15px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.stButton>button:hover, .stDownloadButton>button:hover {
+    background-color: #689f63;
+    transform: translateY(-1px);
+}
+div[data-testid="stMarkdownContainer"] > div[style*="background:#f0fdf4"] {
+    border: 1px solid #c8e6c9;
+    background-color: #f0fdf4;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 8px 0;
+    font-weight: 500;
+}
+
+.vega-embed .vega-actions {
+    display: none !important;
+}
+
+.vega-embed {
+    background-color: transparent !important;
+}
+thead tr th {
+    background-color: #d0ead5 !important;
+    color: #1e5631 !important;
+    font-weight: bold;
+    font-size: 14px !important;
+}
+tbody tr td {
+    font-size: 13px !important;
+    color: #2c3e50 !important;
+}
+input, textarea {
+    border-radius: 6px !important;
+    border: 1px solid #b2dfdb !important;
+    padding: 8px !important;
+    font-size: 14px !important;
+    background-color: #ffffff !important;
+}
+
+.sidebar .sidebar-content {
+    background-color: #e3f1e8;
+}

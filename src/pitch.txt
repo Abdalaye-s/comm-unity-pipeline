@@ -1,54 +1,75 @@
+🎯 Introduction
+
 Bonjour à toutes et à tous,
+Je suis ravi de vous présenter Comm’Unity, un projet qui met l’intelligence artificielle au service de l’écoute citoyenne.
+Dans un monde où chaque avis compte, notre ambition est claire : aider les villes à comprendre leurs habitants en temps réel.
 
-Aujourd’hui je suis fier de vous présenter Comm’Unity, un projet qui allie IA, transparence citoyenne, et technologie responsable.
-Comm’Unity, c’est une réponse concrète à une problématique simple mais cruciale : comment capter, comprendre, et valoriser l’opinion citoyenne ?
+🔍 Pourquoi Comm’Unity ?
+Les citoyens s’expriment sur Google, Twitter, Facebook… mais leur parole se perd souvent dans le bruit numérique.
+Et pourtant, ces commentaires contiennent des signaux faibles précieux pour :
 
-Et pour vous expliquer notre solution, je vais m’appuyer sur les 5 premières lettres de Comm’Unity :
-C-O-M-M-U. Trois lettres, trois piliers, une technologie.
+anticiper des tensions,
 
-C - Com, pour Commentaire.
-Tout part d’un mot, d’une phrase, d’un avis.
-Nous avons collecté des milliers de commentaires, positifs comme négatifs, sur les réseaux sociaux, les forums, les plateformes d’avis.
-Mais une donnée brute, ça ne vaut rien si elle n’est pas traitée :
-👉 Nous avons nettoyé, normalisé et filtré ces commentaires grâce à nos scripts maison dans data_cleaning.py.
-C’est cette matière première, ce langage citoyen, qui a alimenté notre système.
+valoriser des actions municipales,
 
-M - M pour Modèle.
-Notre moteur d’analyse repose sur un modèle de traitement du langage :
-un modèle pré-entraîné CamemBERT, spécialisé dans le français.
+guider la prise de décision publique.
 
-Mais on ne s’est pas contenté de l’utiliser tel quel.
-On a appliqué ce qu’on appelle du transfert learning :
-👉 En gros, on prend un modèle déjà intelligent, et on le réentraîne sur nos données spécifiques – ici les commentaires citoyens – pour qu’il devienne expert dans ce domaine.
+Alors nous avons conçu une solution complète, modulaire, et éthique, que je vais résumer en 3 lettres : C – M – U.
 
-Ensuite, pour fiabiliser les résultats, on l’a croisé avec 3 autres approches :
+🅒 – Commentaire
+Tout part d’un mot, d’une émotion, d’un ressenti.
+Nous avons collecté automatiquement des commentaires publics sur différentes plateformes, comme Google Reviews.
 
-VADER et TextBlob, des outils de sentiment simple,
+🧹 Traitement initial :
 
-et Naive Bayes, un algorithme statistique.
-Tout ça, combiné dans un système de vote que vous retrouvez dans notre module predict_sentiment.py.
+Grâce à notre module data_cleaning.py, nous avons nettoyé, filtré et uniformisé ces textes — une étape cruciale avant toute analyse.
 
-Résultat : un modèle robuste, précis, capable de dire si un commentaire est positif, neutre ou négatif, avec du contexte.
+🅜 – Modèle
+Pour comprendre ces messages, nous utilisons plusieurs approches combinées.
 
-U - U pour UX, l’interface.
-Parce qu’un bon modèle sans bonne interface, c’est comme une voiture sans volant.
-Nous avons donc développé un dashboard interactif sous Streamlit,
-📊 Un outil simple, clair, que la ville peut utiliser au quotidien.
-On peut y filtrer les sentiments, suivre leur évolution dans le temps, et même détecter les thèmes émergents grâce à notre algorithme hybride d’analyse thématique.
+🧠 Au cœur du projet :
 
-En quelques clics, une collectivité peut prendre le pouls de sa réputation, localiser les points de tension, et valoriser les retours positifs.
+Un modèle de traitement du langage basé sur CamemBERT, un modèle francophone pré-entraîné.
+Nous l’avons enrichi avec nos données terrain grâce au transfert learning.
 
-🎯 Et pour qui ?
-Comm’Unity, c’est d’abord pensé pour une ville comme Gennevilliers, qui veut rester à l’écoute de ses habitants.
-Mais c’est aussi un projet qui peut séduire des acteurs industriels comme Thales, grâce à la rigueur de son pipeline, la modularité du code, et la pertinence des résultats.
+En complément, nous utilisons TextBlob, VADER et un classifieur Naive Bayes, le tout orchestré dans predict_sentiment.py.
 
-✨ En conclusion :
+Résultat ? Une analyse de sentiment robuste et nuancée, capable de capter le ton — qu’il soit positif, neutre ou négatif — avec du contexte thématique.
+
+🅤 – UX (Interface)
+Parce qu’un bon modèle ne vaut rien sans une interface claire,
+nous avons développé un dashboard interactif avec Streamlit.
+
+📊 Démonstration live :
+
+L'utilisateur choisit une ville, comme Gennevilliers
+
+Il peut filtrer les avis par période, par thème (logement, jeunesse, écologie...)
+
+Visualiser les sujets fréquents, les entités nommées (personnes, lieux),
+
+Et même générer un résumé automatique des opinions avec un modèle BART de génération de texte.
+
+📝 En un clic, on peut aussi exporter un rapport PDF complet :
+avec résumé, stats, tendances et émotions citoyennes.
+
+🧭 Et ensuite ?
+Comm’Unity a été pensé pour des collectivités locales : mairies, territoires intelligents, observatoires.
+Mais il est aussi pertinent pour :
+
+des cabinets d’études,
+
+des grands comptes industriels comme Thales ou EDF pour surveiller leur e-réputation locale.
+
+Sa modularité, sa base Docker, son Git versionné permettent à d'autres data scientists de contribuer facilement au projet.
+
+✨ Conclusion
 Comm’Unity, c’est :
 
-La voix du citoyen, captée et comprise,
+La voix des citoyens, captée, analysée, visualisée.
 
-La puissance de l’IA, mise au service de l’humain,
+Un projet qui marie technologie, transparence et utilité publique.
 
-Et une interface claire, accessible à tous.
+Et surtout, une brique IA modulaire, éthique, au service de la gouvernance locale et participative.
 
-Merci.
+🎤 Merci pour votre attention.

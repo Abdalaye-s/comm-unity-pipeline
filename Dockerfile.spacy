@@ -1,0 +1,22 @@
+FROM python:3.10-slim
+
+# Installer les dépendances système minimales
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    git \
+    && apt-get clean
+
+# Installer SpaCy avec Conda-like simplicité
+RUN pip install --no-cache-dir spacy==3.7.2
+
+# Télécharger le modèle français
+RUN python -m spacy download fr_core_news_md
+
+# Dossier de travail
+WORKDIR /app
+
+# Copier ton projet dedans si nécessaire (ici on imagine tu ajoutes les fichiers à la main)
+COPY . /app
+
+# Commande par défaut
+CMD ["python"]

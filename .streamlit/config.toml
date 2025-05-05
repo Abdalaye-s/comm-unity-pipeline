@@ -1,0 +1,7 @@
+[theme]
+base="light"
+primaryColor="#81B774"          # Vert clair (comme le logo)
+backgroundColor="#F8FCF7"       # Très clair, légèrement vert
+secondaryBackgroundColor="#E8F5E9" # Pour les blocs de fond
+textColor="#1B4332"             # Vert foncé lisible
+font="sans serif"
