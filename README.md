@@ -12,5 +12,4 @@
 - Comparaison multi-villes
 
 ## 📦 Lancer avec Docker
-à venir
-
+docker run -p 8501:8501 abdalaye/image_comm_unity_test:tagname
