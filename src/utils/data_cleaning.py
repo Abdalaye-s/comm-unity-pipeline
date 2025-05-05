@@ -9,6 +9,14 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"
 
 file_path = os.path.join(os.path.dirname(__file__), 'dictionnaire.txt')
 
+# === 1. Télécharger les données NLTK ===
+nltk_datasets = ["stopwords", "punkt", "wordnet"]
+for dataset in nltk_datasets:
+    try:
+        nltk.data.find(f"corpora/{dataset}")
+    except LookupError:
+        nltk.download(dataset)
+
 # Initialisation des stopwords et du lemmatizer
 french_stopwords = nltk.corpus.stopwords.words('french')
 mots = set(line.strip() for line in open(file_path, encoding='utf-8'))

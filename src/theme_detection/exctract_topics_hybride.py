@@ -4,7 +4,13 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 import spacy
 
-nlp = spacy.load("fr_core_news_sm")
+# === 2. Charger les modèles spaCy ===
+try:
+    nlp = spacy.load("fr_core_news_sm")
+except OSError:
+    # Si le modèle n'est pas trouvé, le télécharger
+    spacy.cli.download("fr_core_news_sm")
+    nlp = spacy.load("fr_core_news_sm")
 # Stopwords personnalisés à retirer en plus
 CUSTOM_STOPWORDS = set([
     "le", "la", "les", "un", "une", "des", "du", "de", "d", "au", "aux", "l",
