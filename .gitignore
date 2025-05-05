@@ -36,3 +36,5 @@ env/
 
 # Docker
 *.db
+*.dll
+*.lib
