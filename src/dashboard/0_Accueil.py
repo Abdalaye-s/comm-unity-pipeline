@@ -26,7 +26,7 @@ if os.path.exists(css_path):
     with open(css_path) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# ✅ Header
+# Header
 if os.path.exists(logo_path):
     with open(logo_path, "rb") as f:
         logo_base64 = base64.b64encode(f.read()).decode()
@@ -44,14 +44,14 @@ else:
 st.markdown("Suivez l'évolution des ressentis dans votre **ville** ou votre **organisation**.")
 st.markdown("---")
 
-# 🧠 Initialisation session
+# Initialisation session
 if "data_loaded" not in st.session_state:
     st.session_state.data_loaded = False
 
-# 🔍 Entrée utilisateur
+# Entrée utilisateur
 with st.expander("🔎 Lancer une nouvelle analyse", expanded=not st.session_state.data_loaded):
     ville = st.text_input("Nom de la ville ou de l'entreprise:", placeholder="Ex: Gennevilliers")
-    btn = st.button("🚀 Lancer")
+    btn = st.button("Lancer")
 
     if btn and ville:
         from src.utils.data_loader import load_data  # <-- à adapter si nécessaire
@@ -83,7 +83,7 @@ if not st.session_state.get("df", pd.DataFrame()).empty:
 else:
     st.stop()
 
-# 🧹 Pré-traitement
+#  Pré-traitement
 df.columns = df.columns.str.strip().str.lower()
 if "time" in df.columns:
     df["time"] = pd.to_datetime(df["time"], errors="coerce")
@@ -91,7 +91,7 @@ if "topics_with_sentiment" in df.columns:
     def safe_parse(x): return ast.literal_eval(x) if isinstance(x, str) else x
     df["topics_with_sentiment"] = df["topics_with_sentiment"].apply(safe_parse)
 
-# 🧾 Filtres latéraux
+#  Filtres latéraux
 with st.sidebar:
     st.markdown("## 🎛️ Filtres")
     
@@ -111,13 +111,13 @@ with st.sidebar:
         if choix_theme != "Toutes":
             df = df[df["thematic_query"] == choix_theme]
 
-# 🧩 Résumé
+#  Résumé
 nb_comments = len(df)
 entite_label = "ville" if "ville" in df.columns else "entité"
 nom_affiche = st.session_state.get("ville", "Inconnue")
-st.markdown(f"### 📊 Résultats pour : **{nom_affiche}** – {nb_comments} commentaires")
+st.markdown(f"### Résultats pour : **{nom_affiche}** – {nb_comments} commentaires")
 
-# 📍 Analyse thématique
+#  Analyse thématique
 tab1, tab2 = st.tabs(["📌 Sujets les plus mentionnés", "🔍 Sujets avec sentiment"])
 
 with tab1:

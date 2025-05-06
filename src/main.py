@@ -17,12 +17,18 @@ from src.theme_detection.extract_topics_with_sentiment import extract_topics_wit
 from src.theme_detection.detect_themes_safe import detect_theme_safe
 from src.theme_detection.ner_entity_extraction import extract_named_entities
 from src.scraping.twitter_scraper import get_tweets
-from dotenv import load_dotenv
+import streamlit as st
 from src.scraping.scrape_city_by_themes import is_entreprise
 
-load_dotenv()
-THRESHOLD = float(os.getenv("THRESHOLD", "0.35"))
+# Essayez d’utiliser st.secrets, et fallback sur os.getenv en local
+def get_secret(key, default=None):
+    try:
+        return st.secrets[key]
+    except KeyError:
+        import os
+        return os.getenv(key, default)
 
+THRESHOLD = float(get_secret("THRESHOLD")) 
 
 def translate_to_french_if_needed(text):
     try:
@@ -47,8 +53,8 @@ def to_dataframe_if_needed(data):
 
 def run_pipeline(entite):
     print(f"📅 Scraping des données pour : {entite}...")
-    #tweets= safe_scraper(lambda: get_tweets(entite))
-    tweets = pd.DataFrame(columns=["text", "time"])  # DataFrame vide mais valide
+    tweets= safe_scraper(lambda: get_tweets(entite))
+    #tweets = pd.DataFrame(columns=["text", "time"])  # DataFrame vide mais valide
     reviews = safe_scraper(lambda: scrape_city_by_themes(entite))
     reviews = to_dataframe_if_needed(reviews)
 

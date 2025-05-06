@@ -1,12 +1,18 @@
 import requests
 import os
 import pandas as pd
-from dotenv import load_dotenv
+import streamlit as st
 from datetime import datetime, timedelta
 
-# Charger les variables d'environnement
-load_dotenv()
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
+def get_secret(key, default=None):
+    try:
+        return st.secrets[key]
+    except KeyError:
+        import os
+        return os.getenv(key, default)
+
+GOOGLE_API_KEY = get_secret("GOOGLE_API_KEY")
 
 def parse_relative_date(text):
     if not text:

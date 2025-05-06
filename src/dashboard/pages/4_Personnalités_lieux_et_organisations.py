@@ -4,7 +4,7 @@ import ast
 import os
 import sys
 
-# 📁 Chemins
+#  Chemins
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.abspath(os.path.join(CURRENT_DIR, "../../")))
 
@@ -39,21 +39,21 @@ def split_entities(df):
     return df
 
 st.set_page_config(page_title="Entités nommées", layout="wide")
-st.title("🧠 Personnalités, lieux et organisations mentionnés")
+st.title(" Personnalités, lieux et organisations mentionnés")
 
-# ✅ Vérifier que les données existent dans la session
+#  Vérifier que les données existent dans la session
 if "df" not in st.session_state:
     st.warning("⚠️ Aucune donnée trouvée. Veuillez lancer une recherche depuis la page d’accueil.")
     st.stop()
 
-# ✅ Utiliser les données filtrées de la session
+#  Utiliser les données filtrées de la session
 df = st.session_state["df"].copy()
 
 # Parser et splitter les entités
 df["entities"] = df["entities"].apply(safe_parse_entities)
 df = split_entities(df)
 
-# ✅ Affichage
+#  Affichage
 st.write("Colonnes disponibles dans le fichier :", df.columns.tolist())
 
 cols = ["text", "personnes", "lieux", "organisations"]

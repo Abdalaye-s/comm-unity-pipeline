@@ -11,17 +11,17 @@ try:
 except:
     pass  # Si le fichier n’existe pas, on n’arrête pas l’app
 
-st.title("📍 Détail des avis ")
+st.title(" Détail des avis ")
 
-# 🧠 Vérifie que les données sont bien chargées
+#  Vérifie que les données sont bien chargées
 if "df" not in st.session_state or "ville" not in st.session_state:
     st.warning("⚠️ Aucune donnée trouvée. Veuillez d'abord lancer une analyse via la page d'accueil.")
     st.stop()
 
-# 🔄 Récupère les données
+#  Récupère les données
 df = st.session_state["df"]
 
-# 📍 Ville en mémoire
+#  Ville en mémoire
 ville_actuelle = st.session_state.get("ville", "")
 villes_possibles = df["theme"].dropna().unique().tolist()
 
@@ -35,15 +35,15 @@ ville_selectionnee = st.selectbox(
     index=villes_possibles.index(ville_actuelle) if ville_actuelle in villes_possibles else 0
 )
 
-# 🔎 Filtrage
+#  Filtrage
 df_ville = df[df["theme"] == ville_selectionnee]
 
 if df_ville.empty:
     st.info(f"Aucun avis trouvé pour {ville_selectionnee}.")
 else:
-    st.subheader(f"📝 Aperçu des commentaires pour {ville_selectionnee}")
+    st.subheader(f" Aperçu des commentaires pour {ville_selectionnee}")
     st.dataframe(df_ville[["text", "sentiment", "topics", "entities"]].head(20), use_container_width=True)
 
-    st.subheader("📊 Statistiques de sentiment")
+    st.subheader(" Statistiques de sentiment")
     sentiment_counts = df_ville["sentiment"].value_counts()
     st.bar_chart(sentiment_counts)

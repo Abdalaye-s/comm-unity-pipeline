@@ -4,14 +4,14 @@ import plotly.express as px
 import ast
 
 st.set_page_config(page_title="Analyse de sentiment", layout="wide")
-st.title("📊 Analyse de sentiment")
+st.title(" Analyse de sentiment")
 
-# ✅ Utiliser les données partagées depuis la page d'accueil
+# Utiliser les données partagées depuis la page d'accueil
 if "df" not in st.session_state:
     st.warning("⚠️ Aucune donnée trouvée. Veuillez lancer une recherche depuis la page d’accueil.")
     st.stop()
 
-df = st.session_state["df"].copy()  # 👈 Très important de copier pour ne pas modifier l'original
+df = st.session_state["df"].copy()  # Copie pour éviter les modifications sur l'original
 
 def safe_parse_topics(x):
     try:
@@ -24,14 +24,14 @@ def safe_parse_topics(x):
     return []
 
 
-# ✅ Prétraitements
+#  Prétraitements
 df["sentiment"] = df["sentiment"].fillna("Inconnu").astype(str).str.strip()
 df["topics"] = df["topics"].apply(safe_parse_topics)
 
-# 🖼️ Aperçu
+#  Aperçu
 st.dataframe(df.head())
 
-# 📌 Distribution des sentiments
+#  Distribution des sentiments
 if not df.empty:
     df["sentiment"] = (
         df["sentiment"]
@@ -68,7 +68,7 @@ if not df.empty:
     else:
         st.warning("Aucun sentiment détecté dans les données ou tous les comptes sont à zéro.")
 
-# 🔍 Sélection par type de sentiment
+#  Sélection par type de sentiment
 st.subheader("Thématiques par sentiment")
 sentiment_choice = st.selectbox("Filtrer par sentiment :", options=["Tous"] + list(df["sentiment"].unique()))
 

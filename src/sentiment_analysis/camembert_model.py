@@ -1,10 +1,8 @@
 import os
-from dotenv import load_dotenv
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 # Charger les variables d'environnement
-load_dotenv()
 model_path = os.path.normpath(os.path.abspath(os.path.join("src", "camembert_sentiment_model")))
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Utilisation de l'appareil : {device}")

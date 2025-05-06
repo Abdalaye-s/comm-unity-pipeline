@@ -2,11 +2,17 @@ import tweepy
 import pandas as pd
 import time
 import os
-from dotenv import load_dotenv
+import streamlit as st
+
+def get_secret(key, default=None):
+    try:
+        return st.secrets[key]
+    except KeyError:
+        import os
+        return os.getenv(key, default)
 
 # Charger les variables d'environnement
-load_dotenv()
-BEARER_TOKEN = os.getenv("TWITTER_BEARER_TOKEN")
+BEARER_TOKEN = get_secret("BEARER_TOKEN")
 
 def get_tweets(entite):
     

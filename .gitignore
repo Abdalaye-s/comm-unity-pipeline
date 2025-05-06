@@ -32,6 +32,7 @@ env/
 # Models
 *.pt
 *.bin
+!src/camembert_sentiment_model/pytorch_model.bin
 *.h5
 
 # Docker
