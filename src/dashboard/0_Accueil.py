@@ -11,14 +11,17 @@ from datetime import datetime
 import ast
 import base64
 
+
 # Configuration de la page
 st.set_page_config(page_title="Comm’Unity – Vue d’ensemble", layout="wide")
 
-# 📁 Setup des chemins
+#  Setup des chemins
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.abspath(os.path.join(CURRENT_DIR, "../../")))
 
-# 🖼️ Logo et Style
+# Ajouter le chemin racine du projet
+model_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "camembert_sentiment_model"))
+#  Logo et Style
 logo_path = os.path.join(CURRENT_DIR, "logo.png")
 css_path = os.path.join(CURRENT_DIR, "assets", "styles.css")
 

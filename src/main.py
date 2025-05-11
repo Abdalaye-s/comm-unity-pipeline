@@ -8,6 +8,8 @@ from deep_translator import GoogleTranslator
 from langdetect import detect
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+# Ajouter le chemin racine du projet
+model_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "camembert_sentiment_model"))
 
 from src.scraping.scrape_city_by_themes import scrape_city_by_themes
 from src.utils.data_cleaning import clean_text
