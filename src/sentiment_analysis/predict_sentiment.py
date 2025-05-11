@@ -20,7 +20,7 @@ def vote_maj(text, use_weights=True):
     ]
 
     if use_weights:
-        weights = [2, 1, 1, 1]  # Poids : CamemBERT peut avoir plus de poids
+        weights = [3, 1, 1, 1]  # Poids : CamemBERT peut avoir plus de poids
         votes = {}
         for i, pred in enumerate(predictions):
             votes[pred] = votes.get(pred, 0) + weights[i]
