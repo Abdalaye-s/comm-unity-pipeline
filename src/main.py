@@ -54,78 +54,62 @@ def to_dataframe_if_needed(data):
     return data if isinstance(data, pd.DataFrame) else pd.DataFrame()
 
 def run_pipeline(entite):
-    print(f"📅 Scraping des données pour : {entite}...")
-    tweets= safe_scraper(lambda: get_tweets(entite))
-    #tweets = pd.DataFrame(columns=["text", "time"])  # DataFrame vide mais valide
+    # Barre de progression globale
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    status_text.text(f"📅 Scraping des données pour : {entite}...")
+    tweets = safe_scraper(lambda: get_tweets(entite))
     reviews = safe_scraper(lambda: scrape_city_by_themes(entite))
     reviews = to_dataframe_if_needed(reviews)
+    progress_bar.progress(10)
 
     if reviews.empty:
-        print("❌ Aucun commentaire récupéré, arrêt du pipeline.")
+        st.error("❌ Aucun commentaire récupéré, arrêt du pipeline.")
         return pd.DataFrame()
 
     df = pd.concat([reviews, tweets], ignore_index=True)
     df["time"] = pd.to_datetime(df["time"], errors="coerce")
     
-    print("🕵️ Nettoyage du texte...")
+    status_text.text(" Nettoyage du texte...")
     df["text_clean"] = df["text"].astype(str).apply(clean_text)
+    progress_bar.progress(20)
 
-  
-    
-    print("🌍 Traduction vers le français (si nécessaire)...")
+    status_text.text(" Traduction vers le français si nécessaire...")
     df["text_clean"] = df["text_clean"].apply(translate_to_french_if_needed)
+    progress_bar.progress(30)
 
-
-
-    print("🧐 Analyse de sentiment...")
+    status_text.text(" Analyse de sentiment...")
     df["sentiment"] = df["text_clean"].apply(predict_sentiment)
-    
+    progress_bar.progress(40)
 
-
-    sentiment_map = {
-    "Positif/Neutre": 1,
-    "Négatif": 0
-    }
+    sentiment_map = {"Positif/Neutre": 1, "Négatif": 0}
     df["sentiment_score"] = df["sentiment"].map(sentiment_map)
 
-
-    print("📊 Extraction des sujets...")
+    status_text.text(" Extraction des sujets...")
     df["topics"] = df["text_clean"].apply(lambda x: extract_topics_hybride(x, top_n=5))
-
-
-    print("🔎 Exemple de texte nettoyé :")
-    print(df["text_clean"].dropna().head(5).to_list())
-
-    print("🔎 Exemples de topics extraits :")
-    print(df["topics"].dropna().head(5).to_list())
-
-    print("📊 Extraction des sujets avec sentiment...")
-    df["topics_with_sentiment"] = df["text_clean"].apply(lambda x: extract_topics_with_sentiment(x, top_n=5))
-
-
-    print("🏷️ Détection des thématiques...")
-    df["theme"] = df["text_clean"].apply(lambda x: detect_theme_safe(x, entite, threshold=THRESHOLD))
+    progress_bar.progress(60)
     
-    print("🧐 Extraction des entités nommées...")
+    # ... (suite de votre fonction)
+    status_text.text(" Extraction des sujets avec sentiment...")
+    df["topics_with_sentiment"] = df["text_clean"].apply(lambda x: extract_topics_with_sentiment(x, top_n=5))
+    progress_bar.progress(75)
+
+    status_text.text(" Détection des thématiques...")
+    df["theme"] = df["text_clean"].apply(lambda x: detect_theme_safe(x, entite, threshold=THRESHOLD))
+    progress_bar.progress(85)
+
+    status_text.text(" Extraction des entités nommées...")
     df["entities"] = df["text_clean"].apply(extract_named_entities)
+    progress_bar.progress(100)
+    status_text.text(f" Pipeline terminé - {len(df)} commentaires analysés")
 
-    print("✅ Colonnes disponibles :", df.columns.tolist())
-
-    output_path = "comments_annotated.csv"
-    print(f"📀 Sauvegarde des résultats dans {output_path}...")
-    df.to_csv(output_path, index=False)
-
-    print(f"✅ Pipeline terminé. {len(df)} commentaires sauvegardés.")
-    df["type_entite"] = "entreprise" if is_entreprise(entite) else "ville"
-    df["ville"] = "" if is_entreprise(entite) else entite
 
     return df
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Pipeline de scraping, nettoyage et analyse.")
-    parser.add_argument("--entite", type=str, required=True, help="Nom de l'entité à analyser (ex: Gennevilliers)")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--entite", required=True)
     args = parser.parse_args()
-    df_final = run_pipeline(args.entite)
-
-    if not df_final.empty:
-        print(df_final.head())
+    result_df = run_pipeline(args.entite)
+    result_df.to_csv("comments_annotated.csv", index=False)

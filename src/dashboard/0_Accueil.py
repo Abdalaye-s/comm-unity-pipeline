@@ -57,7 +57,7 @@ with st.expander("🔎 Lancer une nouvelle analyse", expanded=not st.session_sta
     btn = st.button("Lancer")
 
     if btn and ville:
-        from src.utils.data_loader import load_data  # <-- à adapter si nécessaire
+        from src.utils.data_loader import load_data  
 
         with st.spinner(f"Chargement des données pour {ville}..."):
             df = load_data(ville)
@@ -120,39 +120,30 @@ entite_label = "ville" if "ville" in df.columns else "entité"
 nom_affiche = st.session_state.get("ville", "Inconnue")
 st.markdown(f"### Résultats pour : **{nom_affiche}** – {nb_comments} commentaires")
 
-#  Analyse thématique
-tab1, tab2 = st.tabs(["📌 Sujets les plus mentionnés", "🔍 Sujets avec sentiment"])
+# Analyse thématique (version simplifiée)
+tab = st.tabs(["Sujets les plus mentionnés avec sentiment"])[0]  # On ne garde qu'un seul onglet
 
-with tab1:
-    if "topics" in df.columns and df["topics"].notna().any():
-        flat_topics = sum(df["topics"].dropna(), [])
-        top_topics = pd.DataFrame(Counter(flat_topics).most_common(10), columns=["Sujet", "Occurrences"])
-        fig, ax = plt.subplots(figsize=(10, 5))
-        sns.barplot(data=top_topics, x="Occurrences", y="Sujet", palette="Blues_d", ax=ax)
-        st.pyplot(fig)
-        st.dataframe(top_topics)
-    else:
-        st.info("Aucun sujet détecté.")
-
-with tab2:
+with tab:
     if "topics_with_sentiment" in df.columns and df["topics_with_sentiment"].notna().any():
         flat = sum(df["topics_with_sentiment"].dropna(), [])
         if flat:
             df_sent = pd.DataFrame(flat, columns=["Sujet", "Sentiment"])
             top_sentiments = df_sent["Sujet"].value_counts().nlargest(10).index.tolist()
             df_sent = df_sent[df_sent["Sujet"].isin(top_sentiments)]
+            
             chart = alt.Chart(df_sent).mark_bar().encode(
                 x="count():Q",
                 y=alt.Y("Sujet:N", sort="-x"),
                 color="Sentiment:N"
             ).properties(height=400)
+            
             st.altair_chart(chart, use_container_width=True)
             st.dataframe(df_sent)
         else:
             st.info("Pas de sujet avec sentiment associé.")
     else:
         st.info("Aucune donnée sentimentale détectée.")
-
+        
 # 🔁 Réinitialisation
 if st.button("🔄 Réinitialiser"):
     for key in ["df", "ville", "data_loaded"]:
