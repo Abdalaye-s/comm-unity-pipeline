@@ -64,10 +64,10 @@ def run_pipeline(entite):
     reviews = to_dataframe_if_needed(reviews)
     progress_bar.progress(10)
 
-    '''if reviews.empty:
+    if reviews.empty:
         st.error("❌ Aucun commentaire récupéré, arrêt du pipeline.")
         return pd.DataFrame()
-    '''
+    
     df = pd.concat([reviews, tweets], ignore_index=True)
     df["time"] = pd.to_datetime(df["time"], errors="coerce")
     
