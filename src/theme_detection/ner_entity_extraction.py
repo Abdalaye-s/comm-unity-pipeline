@@ -1,6 +1,11 @@
 # src/theme_detection/ner_entity_extraction.py
 import spacy
-nlp = spacy.load("fr_core_news_md")
+import streamlit as st
+@st.cache_resource 
+def load_model():
+    nlp = spacy.load("fr_core_news_md")
+    return nlp
+nlp = load_model()
 
 def extract_named_entities(text):
     doc = nlp(text)

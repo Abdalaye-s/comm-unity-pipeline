@@ -3,10 +3,15 @@ import string
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 import spacy
+import streamlit as st
+@st.cache_resource 
+def load_model():
+    nlp = spacy.load("fr_core_news_sm")
+    return nlp
 
 # === 2. Charger les modèles spaCy ===
 try:
-    nlp = spacy.load("fr_core_news_sm")
+    nlp = load_model()
 except OSError:
     # Si le modèle n'est pas trouvé, le télécharger
     spacy.cli.download("fr_core_news_sm")
