@@ -58,16 +58,12 @@ if "topics_with_sentiment" in df.columns:
             topics_sentiment.append({"topic": topic, "sentiment": sentiment, "sentiment_score": score})
 topics_sentiment_df = pd.DataFrame(topics_sentiment).drop_duplicates("topic") if topics_sentiment else pd.DataFrame(columns=["topic", "sentiment", "sentiment_score"])
 
-@st.cache_data
-def summarize_text_cached(df):
-    return summarize_text(df)
 
 #  Export PDF
 if st.button("📄 Générer le rapport PDF"):
     with st.spinner("⏳ Génération du PDF en cours..."):
         try:
-            summary = summarize_text_cached(df)  
-            pdf_path = create_pdf(df, topics_counter, topics_sentiment_df, summary)
+            pdf_path = create_pdf(df, topics_counter=topics_counter, topics_sentiment_df=topics_sentiment_df)
             with open(pdf_path, "rb") as f:
                 base64_pdf = base64.b64encode(f.read()).decode("utf-8")
                 href = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="rapport_commentaires_{ville.lower().replace(" ", "_")}.pdf">📥 Télécharger le rapport PDF</a>'

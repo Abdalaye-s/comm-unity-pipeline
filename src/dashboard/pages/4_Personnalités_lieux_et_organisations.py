@@ -54,7 +54,6 @@ df["entities"] = df["entities"].apply(safe_parse_entities)
 df = split_entities(df)
 
 #  Affichage
-st.write("Colonnes disponibles dans le fichier :", df.columns.tolist())
 
 cols = ["text", "personnes", "lieux", "organisations"]
 available_cols = [col for col in cols if col in df.columns]

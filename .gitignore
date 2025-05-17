@@ -14,7 +14,7 @@ env/
 
 # Streamlit/IDE
 .streamlit/
-!streamlit/confug.toml
+!streamlit/config.toml
 .idea/
 .vscode/
 

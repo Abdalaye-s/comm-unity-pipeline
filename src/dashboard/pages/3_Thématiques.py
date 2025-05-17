@@ -15,7 +15,6 @@ df = st.session_state["df"].copy()
 
 #  Affichage des colonnes (optionnel pour debug)
 st.dataframe(df.head())
-st.write("Colonnes du DataFrame :", df.columns.tolist())
 
 def safe_parse_topics(x):
     try:

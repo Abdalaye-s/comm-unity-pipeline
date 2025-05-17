@@ -1,4 +1,4 @@
-# dashboard.py — Vue d’ensemble améliorée Comm'Unity
+# 0_Accueil.py — Vue d’ensemble améliorée Comm'Unity
 import os
 import sys
 import streamlit as st
@@ -21,6 +21,8 @@ sys.path.append(os.path.abspath(os.path.join(CURRENT_DIR, "../../")))
 
 # Ajouter le chemin racine du projet
 model_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "camembert_sentiment_model"))
+from src.utils.data_loader import load_data 
+
 #  Logo et Style
 logo_path = os.path.join(CURRENT_DIR, "logo.png")
 css_path = os.path.join(CURRENT_DIR, "assets", "styles.css")
@@ -57,14 +59,14 @@ with st.expander("🔎 Lancer une nouvelle analyse", expanded=not st.session_sta
     btn = st.button("Lancer")
 
     if btn and ville:
-        from src.utils.data_loader import load_data  
+         
 
         with st.spinner(f"Chargement des données pour {ville}..."):
             df = load_data(ville)
 
         if df is not None and not df.empty:
             if "df" in st.session_state:
-                colonnes_uniques = ["time", "text", "ville"]  # ou adapte à ton modèle
+                colonnes_uniques = ["time", "text", "ville"]  
                 st.session_state["df"] = (
                     pd.concat([st.session_state["df"], df], ignore_index=True)
                     .drop_duplicates(subset=colonnes_uniques)

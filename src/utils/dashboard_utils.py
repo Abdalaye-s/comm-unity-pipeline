@@ -6,6 +6,9 @@ from transformers import pipeline, AutoTokenizer
 import pandas as pd
 import os
 import urllib.request
+import seaborn as sns
+from wordcloud import WordCloud
+from matplotlib import pyplot as plt
 
 import os
 
@@ -35,7 +38,7 @@ def safe_parse_topics_with_sentiment(x):
     return []
 
 
-# 🎯 Conversion score → couleur
+#  Conversion score → couleur
 def sentiment_to_color(score):
     if score >= 0.3:
         return "🟢"
@@ -122,70 +125,90 @@ def sentiment_to_text(score):
     else:
         return "neutre"
 
-def create_pdf(df, topics_counter=None, topics_sentiment_df=None, summary=""):
-    pdf = FPDF()
+class RapportMairiePDF(FPDF):
+    def header(self):
+        self.set_font("Arial", "B", 14)
+        self.cell(0, 10, " Rapport Synthétique ", ln=True, align="C")
+        self.ln(5)
+
+    def footer(self):
+        self.set_y(-15)
+        self.set_font("Arial", "I", 8)
+        self.cell(0, 10, f"Page {self.page_no()}", align="C")
+
+    def add_section(self, title):
+        self.set_font("Arial", "B", 12)
+        self.set_fill_color(230, 230, 250)
+        self.cell(0, 10, f" {title}", ln=True, fill=True)
+        self.ln(2)
+
+    def add_text(self, text, size=11):
+        self.set_font("Arial", size=size)
+        text = text.encode('latin-1', 'replace').decode('latin-1')  # éviter les erreurs Unicode
+        self.multi_cell(0, 8, text)
+        self.ln()
+
+    def add_image(self, path, w=180):
+        if os.path.exists(path):
+            self.image(path, w=w)
+            self.ln(10)
+
+def create_pdf(df, topics_counter=None, topics_sentiment_df=None, filename="rapport_analyse_commentaires.pdf"):
+    pdf = RapportMairiePDF()
     pdf.add_page()
-    pdf.set_font("Arial", size=12)
 
-    # 🔍 Nettoyer les caractères non supportés
-    def clean_text(text):
-        return text.encode('latin-1', 'replace').decode('latin-1')
+    # Section 1 : Contexte
+    pdf.add_section("Contexte général")
+    pdf.add_text("Ce rapport présente une synthèse des ressentis exprimés par les citoyens à travers des avis en ligne.")
+    pdf.add_text(f"Nombre total de commentaires analysés : {len(df)}")
 
-    # Titre
-    pdf.set_font("Arial", "B", 14)
-    pdf.cell(200, 10, clean_text("Rapport d'Analyse des Commentaires"), ln=True, align="C")
-    pdf.ln(10)
-
-    # Résumé
-    pdf.set_font("Arial", "B", 12)
-    pdf.cell(200, 10, clean_text("Résumé général"), ln=True)
-    pdf.set_font("Arial", size=11)
-    pdf.multi_cell(0, 10, clean_text(summary))
-    pdf.ln(8)
-
-    # Statistiques globales
-    pdf.set_font("Arial", "B", 12)
-    pdf.cell(200, 10, clean_text("Chiffres clés"), ln=True)
-    pdf.set_font("Arial", size=11)
-    pdf.cell(200, 8, clean_text(f"- Nombre de commentaires : {len(df)}"), ln=True)
     if "main_theme" in df.columns:
-        unique_themes = df["main_theme"].dropna().nunique()
-        pdf.cell(200, 8, clean_text(f"- Nombre de thématiques identifiées : {unique_themes}"), ln=True)
-    if topics_counter:
-        pdf.cell(200, 8, clean_text(f"- Nombre de sujets détectés : {len(topics_counter)}"), ln=True)
-    pdf.ln(8)
+        n_themes = df["main_theme"].nunique()
+        pdf.add_text(f"Nombre de thématiques identifiées : {n_themes}")
 
-    # Sujets fréquents
+    # Section 2 : Sentiment global
+    pdf.add_section("Sentiment global")
+    plt.figure(figsize=(6, 4))
+    sns.countplot(data=df, x="sentiment", palette="Set2")
+    plt.title("Distribution des sentiments")
+    plt.tight_layout()
+    plt.savefig("sentiment_global.png")
+    plt.close()
+    pdf.add_image("sentiment_global.png")
+
+    # Section 3 : Sujets fréquents
     if topics_counter:
-        pdf.set_font("Arial", "B", 12)
-        pdf.cell(200, 10, clean_text("Sujets les plus fréquents"), ln=True)
-        pdf.set_font("Arial", size=11)
+        pdf.add_section("Sujets les plus discutés")
         for topic, count in topics_counter.most_common(10):
-            pdf.cell(200, 8, clean_text(f"- {topic} : {count} occurrences"), ln=True)
-        pdf.ln(8)
+            pdf.add_text(f" {topic} ({count} mentions)")
 
-    # Sentiment par sujet
-    if topics_sentiment_df is not None:
-        pdf.set_font("Arial", "B", 12)
-        pdf.cell(200, 10, clean_text("Analyse des sujets avec sentiment"), ln=True)
-        pdf.set_font("Arial", size=11)
+    # Section 4 : Sujets associés à un sentiment
+    if topics_sentiment_df is not None and not topics_sentiment_df.empty:
+        pdf.add_section("Sujets associés aux sentiments négatifs ou positifs")
         for _, row in topics_sentiment_df.iterrows():
-            score = row.get("sentiment_score", None)
-            sentiment = row.get("sentiment", "Inconnu")
             topic = row.get("topic", "Inconnu")
-            pdf.cell(200, 8, clean_text(f"- {topic} : {sentiment} (score : {score})"), ln=True)
-        pdf.ln(8)
+            sentiment = row.get("sentiment", "Inconnu")
+            score = row.get("sentiment_score", "-")
+            pdf.add_text(f" {topic} : {sentiment} (score : {score})")
 
-    # Entités nommées
+    # Section 5 : Nuage de mots
+    if "topics" in df.columns and df["topics"].notna().any():
+        all_words = ' '.join(sum(df["topics"], []))
+        wordcloud = WordCloud(width=800, height=400, background_color='white').generate(all_words)
+        wordcloud.to_file("nuage_mots.png")
+        pdf.add_section("Nuage de mots (thématiques les plus visibles)")
+        pdf.add_image("nuage_mots.png")
+
+    # Section 6 : Entités citées
     if "entities" in df.columns and df["entities"].notna().any():
-        all_ents = sum(df["entities"], [])
-        ent_counter = Counter([ent[0] for ent in all_ents])
-        pdf.set_font("Arial", "B", 12)
-        pdf.cell(200, 10, clean_text("Entités nommées"), ln=True)
-        pdf.set_font("Arial", size=11)
+        all_entities = sum(df["entities"], [])
+        ent_counter = Counter([ent[0] for ent in all_entities])
+        pdf.add_section("Lieux, personnalités ou organisations citées")
         for ent, count in ent_counter.most_common(10):
-            pdf.cell(200, 8, clean_text(f"- {ent} : {count} fois"), ln=True)
+            pdf.add_text(f" {ent} ({count} fois)")
 
-    pdf_path = "rapport_analyse_commentaires.pdf"
-    pdf.output(pdf_path)
-    return pdf_path
+    # Enregistrement
+    pdf.output(filename)
+    print(f"✅ Rapport PDF généré : {filename}")
+    pdf.output(filename)
+    return filename 
