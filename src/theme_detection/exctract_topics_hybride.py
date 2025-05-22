@@ -4,13 +4,6 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 import spacy
 import streamlit as st
-<<<<<<< HEAD
-@st.cache_resource 
-def load_model():
-    nlp = spacy.load("fr_core_news_sm")
-    return nlp
-=======
->>>>>>> e3d35cf75165ba3ef083b97acf6d03814f69f8c8
 
 @st.cache_resource 
 def load_model():
