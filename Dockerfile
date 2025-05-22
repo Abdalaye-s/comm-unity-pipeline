@@ -14,17 +14,9 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     git \
     wget \
-    libpq-dev \
-    libffi-dev \
     libssl-dev \
-    libxml2-dev \
-    libxslt1-dev \
+    libffi-dev \
     zlib1g-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    liblcms2-dev \
-    libopenblas-dev \
-    libpng-dev \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
