@@ -12,6 +12,7 @@ folium
 streamlit-folium
 streamlit
 pandas==2.0.3
+numpy==1.24.4
 matplotlib==3.7.1
 seaborn==0.12.2
 nltk==3.8.1
