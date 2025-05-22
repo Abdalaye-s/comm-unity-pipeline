@@ -1,7 +1,9 @@
 import os
+import sys
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 # Charger les variables d'environnement
 model_path = os.path.normpath(os.path.abspath(os.path.join("src", "camembert_sentiment_model")))
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

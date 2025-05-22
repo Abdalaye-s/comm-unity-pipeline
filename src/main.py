@@ -67,7 +67,7 @@ def run_pipeline(entite):
     if reviews.empty:
         st.error("❌ Aucun commentaire récupéré, arrêt du pipeline.")
         return pd.DataFrame()
-
+    
     df = pd.concat([reviews, tweets], ignore_index=True)
     df["time"] = pd.to_datetime(df["time"], errors="coerce")
     
@@ -109,7 +109,7 @@ def run_pipeline(entite):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--entite", required=True)
+    parser.add_argument("--entite", type=str, required=True)
     args = parser.parse_args()
     result_df = run_pipeline(args.entite)
     result_df.to_csv("comments_annotated.csv", index=False)

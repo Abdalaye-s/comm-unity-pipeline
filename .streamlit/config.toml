@@ -7,4 +7,8 @@ textColor="#1B4332"             # Vert foncé lisible
 font="sans serif"
 
 [server]
+<<<<<<< HEAD
 healthCheckTimeout = 300  # Augmente le timeout à 5min
+=======
+healthCheckTimeout = 300  # Augmente le timeout à 5min
+>>>>>>> e3d35cf75165ba3ef083b97acf6d03814f69f8c8
