@@ -10,7 +10,7 @@ requests
 plotly
 folium
 streamlit-folium
-streamlit==1.25.0
+streamlit
 pandas==2.0.3
 matplotlib==3.7.1
 seaborn==0.12.2

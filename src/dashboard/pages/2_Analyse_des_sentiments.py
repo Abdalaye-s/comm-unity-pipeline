@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import ast
-
+import seaborn as sns
+import matplotlib.pyplot as plt
 st.set_page_config(page_title="Analyse de sentiment", layout="wide")
 st.title(" Analyse de sentiment")
 
@@ -43,30 +44,26 @@ if not df.empty:
         .str.capitalize()
     )
 
-    st.subheader("Distribution des sentiments")
-    sentiment_counts = df["sentiment"].value_counts().reset_index()
-    sentiment_counts.columns = ["Sentiment", "Nombre"]
+st.subheader("Distribution des sentiments")
 
-    if not sentiment_counts.empty and sentiment_counts["Nombre"].sum() > 0:
-        sentiment_counts["Pourcentage"] = (
-            sentiment_counts["Nombre"] / sentiment_counts["Nombre"].sum() * 100
-        ).round(1)
+sentiment_counts = df["sentiment"].value_counts().reset_index()
+sentiment_counts.columns = ["Sentiment", "Nombre"]
+sentiment_counts["Pourcentage"] = (sentiment_counts["Nombre"] / sentiment_counts["Nombre"].sum() * 100).round(1)
+# Debugging: Print sentiment_counts to verify data
+print("Sentiment Counts:")
+print(sentiment_counts)
+sentiment_counts=pd.DataFrame(sentiment_counts)
+# Create a pie chart
+fig = px.pie(
+    sentiment_counts,
+    names="Sentiment",
+    values="Nombre",
+    title="Distribution des sentiments"
+)
+print(fig)
 
-        fig = px.bar(
-            sentiment_counts,
-            x="Sentiment",
-            y="Nombre",
-            color="Sentiment",
-            text=sentiment_counts["Pourcentage"].astype(str) + " %",
-            title="Distribution des sentiments"
-        )
-
-        fig.update_layout(yaxis=dict(range=[0, sentiment_counts["Nombre"].max() + 1]))
-        fig.update_traces(textposition="outside")
-
-        st.plotly_chart(fig, use_container_width=True)
-    else:
-        st.warning("Aucun sentiment détecté dans les données ou tous les comptes sont à zéro.")
+# Display the pie chart
+st.plotly_chart(fig, use_container_width=True)
 
 #  Sélection par type de sentiment
 st.subheader("Thématiques par sentiment")
@@ -79,7 +76,8 @@ all_topics = [t for sublist in filtered_df["topics"] for t in sublist]
 if all_topics:
     topic_freq = pd.Series(all_topics).value_counts().reset_index()
     topic_freq.columns = ["Thématique", "Nombre"]
-
+    # Sort the DataFrame by "Nombre" in descending order
+    topic_freq = topic_freq.sort_values(by="Nombre", ascending=True)
     fig_topics = px.bar(topic_freq, x="Nombre", y="Thématique", orientation="h", title="Fréquence des thématiques")
     st.plotly_chart(fig_topics, use_container_width=True)
 else:

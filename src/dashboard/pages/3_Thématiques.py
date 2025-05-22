@@ -41,7 +41,7 @@ else:
     if all_topics:
         topic_freq = pd.Series(all_topics).value_counts().reset_index()
         topic_freq.columns = ["Thématique", "Nombre"]
-
+        topic_freq = topic_freq.sort_values(by="Nombre", ascending=True)
         fig = px.bar(topic_freq, x="Nombre", y="Thématique", orientation="h", title="Fréquence des thématiques")
         st.plotly_chart(fig, use_container_width=True)
     else:

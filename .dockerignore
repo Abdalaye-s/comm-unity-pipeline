@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+
+# Virtualenv
+venv/
+venv-py310/
+venv/
+env/
+.venv/
+.env/
+
+.git/
+.gitignore
+.gitattributes
+
+

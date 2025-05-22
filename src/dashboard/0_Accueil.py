@@ -79,7 +79,7 @@ with st.expander("🔎 Lancer une nouvelle analyse", expanded=not st.session_sta
 
             st.session_state.data_loaded = True
             st.success("✅ Données chargées.")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Aucune donnée trouvée.")
 
@@ -116,6 +116,8 @@ with st.sidebar:
         if choix_theme != "Toutes":
             df = df[df["thematic_query"] == choix_theme]
 
+
+
 #  Résumé
 nb_comments = len(df)
 entite_label = "ville" if "ville" in df.columns else "entité"
@@ -150,7 +152,7 @@ with tab:
 if st.button("🔄 Réinitialiser"):
     for key in ["df", "ville", "data_loaded"]:
         st.session_state.pop(key, None)
-    st.experimental_rerun()
+    st.rerun()
 
 # 📎 Pied de page
 st.markdown("<hr><center>© 2025 Comm’Unity – Analyse citoyenne intelligente</center>", unsafe_allow_html=True)

@@ -7,6 +7,8 @@ WORKDIR /Community
 # Copier tous les fichiers du projet dans le conteneur
 COPY . /Community
 
+ENV PYTHONPATH="${PYTHONPATH}:/Community"
+
 # Installer les dépendances système
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -23,7 +25,6 @@ RUN apt-get update && apt-get install -y \
     liblcms2-dev \
     libopenblas-dev \
     libpng-dev \
-    fonts-dejavu-core \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
@@ -40,8 +41,11 @@ RUN python -m nltk.downloader punkt stopwords wordnet
 RUN python -m spacy download fr_core_news_md
 RUN python -m spacy download fr_core_news_sm
 
+
 # Exposer le port de Streamlit
 EXPOSE 8501
 
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+
 # Commande de démarrage du dashboard
-CMD ["streamlit", "run", "src/dashboard/0_Accueil.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "src/dashboard/0_Accueil.py", "--server.port=8501"]

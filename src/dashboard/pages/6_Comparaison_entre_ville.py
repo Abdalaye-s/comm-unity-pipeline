@@ -32,6 +32,8 @@ df.columns = df.columns.str.strip().str.lower()
 #  Détection intelligente de l'identifiant
 if "ville" in df.columns:
     identifiant_col = "ville"
+elif "entreprise" in df.columns:
+    identifiant_col = "entreprise"
 elif "entite" in df.columns:
     identifiant_col = "entite"
 elif "thematic_query" in df.columns:
